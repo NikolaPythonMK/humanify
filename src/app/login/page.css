@@ -1,0 +1,17 @@
+.login-container{
+    display: flex;
+    height: 100vh;
+}
+
+.login-content{
+    width: 70%;
+
+}
+
+.form-container{
+    width: 30%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    justify-content: center;
+
+}
