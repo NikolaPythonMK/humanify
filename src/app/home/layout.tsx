@@ -17,6 +17,11 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { sections } from '../../utils/DrawerSections';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { useEffect, useState } from 'react';
+import { getUser } from '@/utils/userUtils';
+import { User } from '@/interfaces/User';
+import { useRouter } from 'next/navigation';
+import { UserContext } from '@/contexts/UserContext';
 
 const drawerWidth = 240;
 
@@ -25,6 +30,22 @@ export default function HomeLayout({
 } : {
     children: React.ReactNode
 }) {
+
+  const router = useRouter();
+
+  const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    const user = getUser();
+    if (!user){
+      router.push('/login');
+    }
+    else{
+      setUser(user);
+      console.log(user);  
+    }
+  }, []);
+
 
     const drawerSections = sections.map((s, index) => (
         <List key={index}>
@@ -44,10 +65,14 @@ export default function HomeLayout({
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-        <Toolbar>
+        <Toolbar style={{
+          'display': 'flex',
+          'justifyContent': 'space-between',
+        }}>
           <Typography variant="h6" noWrap component="div">
-            Clipped drawer
+            Humanify
           </Typography>
+          <p>Hello, {user?.unique_name}</p>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -78,7 +103,9 @@ export default function HomeLayout({
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
-        { children }
+        <UserContext.Provider value={user}>
+          { children }
+        </UserContext.Provider>
       </Box>
     </Box>
   );

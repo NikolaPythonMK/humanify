@@ -1,7 +1,7 @@
 import { API_URL } from "@/constants";
-import { getUser } from "@/utils/userUtils";
+import { LoginResponse } from "@/interfaces/LoginResponse";
 
-async function login(username: string, password: string){
+async function login(username: string, password: string): Promise<LoginResponse>{
     try {
         const response = await fetch(`${API_URL}/api/auth/login`, {
             method: 'POST',
@@ -11,22 +11,18 @@ async function login(username: string, password: string){
             body: JSON.stringify({username, password})
         });
 
-        if (!response.ok) {
-            console.log('Incorect username or password!');
-            console.log(response);
-        }
-
         const data = await response.json();
 
-       // console.log(JSON.parse(user));
+        if (!response.ok) {
+            throw new Error(data);
+        }
 
-        //console.log(getUser());
+        localStorage.setItem('user', JSON.stringify(data));
+        return {error: null}
     }
-    catch (error) {
-        console.log('ERROR')
-        throw new Error('Error during login');
+    catch (error: any) {
+        return {error: error.message}
     }
 }
-
 
 export { login };

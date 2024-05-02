@@ -1,0 +1,21 @@
+.modalBody {
+    width: 30%;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    border-radius: .5em;
+}
+
+.innerContent{
+    width: 90%;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+}

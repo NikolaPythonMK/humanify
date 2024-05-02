@@ -4,6 +4,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Roles from '@/components/roles/Roles';
+import Features from '@/components/features/Features';
+
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -58,7 +61,7 @@ export default function Team() {
         People sections
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Roles section
+        <Features />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         Teams sections

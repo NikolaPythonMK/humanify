@@ -3,17 +3,24 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import './LoginForm.css';
 import { login } from '@/services/AuthApi';
-import { getRoutes } from '@/services/RoutesApi';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
+    const router = useRouter();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const onFinish = (values: any) => {
-        //console.log('Received values of form: ', values);
-        login(values.username, values.password);
-        //getRoutes();
+    const [error, setError] = useState('');
+
+    const onFinish = async (values: any) => {
+        const { error } = await login(values.username, values.password);
+        if (error) {
+          setError(error);
+        }
+        else{
+          router.push('/home');
+        }
       };
 
     return (
@@ -24,12 +31,14 @@ export default function LoginForm() {
           initialValues={{ remember: true }}
           onFinish={onFinish}
         >
-
+        
           <div className='logo-container'>
             <img src='/logo.png'   alt='logo' width="300" height="150"/>
           </div>
 
           <h1>Login</h1>
+
+          <h3 style={{color: 'red'}}>{error}</h3>
 
           <Form.Item
             name="username"
